@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 /// React router dom
-import {  Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 
 /// Css
 import "./index.css";
@@ -30,7 +30,6 @@ import Theme3 from "./components/Dashboard/Demo/Theme3";
 import Theme4 from "./components/Dashboard/Demo/Theme4";
 import Theme5 from "./components/Dashboard/Demo/Theme5";
 import Theme6 from "./components/Dashboard/Demo/Theme6";
-
 
 /// App
 import AppProfile from "./components/AppsMenu/AppProfile/AppProfile";
@@ -126,16 +125,17 @@ const Markup = () => {
     { url: "card-center", component: CardCenter },
     { url: "transaction-details", component: TransactionDetails },
     { url: "task", component: Task },
-	
-	///Demo
+    { url: "new-page", component: Task },
+
+    ///Demo
     { url: "theme1", component: Theme1 },
     { url: "theme2", component: Theme2 },
     { url: "theme3", component: Theme3 },
     { url: "theme4", component: Theme4 },
     { url: "theme5", component: Theme5 },
     { url: "theme6", component: Theme6 },
-	
-	/// Apps
+
+    /// Apps
     { url: "app-profile", component: AppProfile },
     { url: "email-compose", component: Compose },
     { url: "email-inbox", component: Inbox },
@@ -176,9 +176,9 @@ const Markup = () => {
     { url: "map-jqvmap", component: JqvMap },
     { url: "uc-lightgallery", component: Lightgallery },
 
-	///Redux
-	{ url: "todo", component: Todo },
-	
+    ///Redux
+    { url: "todo", component: Todo },
+
     /// Widget
     { url: "widget-basic", component: Widget },
 
@@ -200,8 +200,8 @@ const Markup = () => {
     { url: "form-validation-jquery", component: jQueryValidation },
 
     /// table
-	{ url: 'table-filtering', component: FilteringTable },
-    { url: 'table-sorting', component: SortingTable },
+    { url: "table-filtering", component: FilteringTable },
+    { url: "table-sorting", component: SortingTable },
     { url: "table-datatable-basic", component: DataTable },
     { url: "table-bootstrap-basic", component: BootstrapTable },
 
@@ -249,8 +249,8 @@ const Markup = () => {
           </div>
         </div>
         {!pagePath && <Footer />}
-      </div>      
-	  <ScrollToTop />
+      </div>
+      <ScrollToTop />
     </>
   );
 };
