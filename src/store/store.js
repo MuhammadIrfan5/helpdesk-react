@@ -4,6 +4,7 @@ import thunk from "redux-thunk";
 import { AuthReducer } from "./reducers/AuthReducer";
 import todoReducers from "./reducers/Reducers";
 import GetDataReducer from "./reducers/GetDataReducer";
+import UserLogin from "./reducers/UserLogin";
 //import { reducer as reduxFormReducer } from 'redux-form';
 const middleware = applyMiddleware(thunk);
 
@@ -14,6 +15,7 @@ const reducers = combineReducers({
   auth: AuthReducer,
   todoReducers,
   GetDataReducer,
+  UserLogin,
 
   //form: reduxFormReducer,
 });

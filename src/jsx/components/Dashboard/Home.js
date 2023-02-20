@@ -49,12 +49,13 @@ const Home = () => {
 
   const guest = useSelector((state) => {
     console.log(state, "state");
-    // state.guest.guestdata
   });
   useEffect(() => {
     changeBackground({ value: "light", label: "Light" });
     console.log("bilal");
     dispatch(GetData());
+    const tokenDetailsString = localStorage.getItem("userDetails");
+    console.log(JSON.parse(tokenDetailsString), "userData");
   }, []);
   return (
     <>

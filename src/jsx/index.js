@@ -20,6 +20,7 @@ import InvoicesList from "./components/Dashboard/InvoicesList";
 import CreateInvoices from "./components/Dashboard/CreateInvoices";
 import CardCenter from "./components/Dashboard/CardCenter";
 import TransactionDetails from "./components/Dashboard/TransactionDetails";
+import Form from "./pages/Dashboard/Form";
 
 import Task from "./components/Dashboard/Task";
 
@@ -125,7 +126,7 @@ const Markup = () => {
     { url: "card-center", component: CardCenter },
     { url: "transaction-details", component: TransactionDetails },
     { url: "task", component: Task },
-    { url: "new-page", component: Task },
+    { url: "user-details", component: Form },
 
     ///Demo
     { url: "theme1", component: Theme1 },

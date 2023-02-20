@@ -9,6 +9,7 @@ import { Dropdown } from "react-bootstrap";
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";
 import { ThemeContext } from "../../../context/ThemeContext";
 import LogoutPage from "./Logout";
+import { useHistory } from "react-router-dom";
 
 /// Image
 //import user from "../../../images/user.jpg";
@@ -34,6 +35,8 @@ class MM extends Component {
 const SideBar = () => {
   const { iconHover, sidebarposition, headerposition, sidebarLayout } =
     useContext(ThemeContext);
+
+  const history = useHistory();
   useEffect(() => {
     var btn = document.querySelector(".nav-control");
     var aaa = document.querySelector("#main-wrapper");
@@ -64,6 +67,7 @@ const SideBar = () => {
       "card-center",
       "transaction-details",
       "task",
+      "user-details",
     ],
     app = [
       "app-profile",
@@ -304,6 +308,15 @@ const SideBar = () => {
                   to="/task"
                 >
                   Task
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  className={`${path === "/user-details" ? "mm-active" : ""}`}
+                  to="/user-details"
+                >
+                  User Details
                 </Link>
               </li>
             </ul>
