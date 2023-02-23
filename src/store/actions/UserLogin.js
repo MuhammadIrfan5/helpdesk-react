@@ -15,7 +15,9 @@ export const UserLogin = (data) => {
     url:
       checkedValue == "company"
         ? `${apiActiveURL}company_login`
-        : `${apiActiveURL}employee_login`,
+        : checkedValue == "employee"
+        ? `${apiActiveURL}employee_login`
+        : `${apiActiveURL}login`,
     method: "POST",
     headers: {
       "Content-Type": "application/json",
