@@ -27,31 +27,31 @@ function App(props) {
   const history = useHistory();
 
   const loginSuccess = useSelector((state) => {
-    console.log(state, "Login State");
+    // console.log(state, "Login State");
     return state.UserLogin.data;
   });
 
   const loginLoading = useSelector((state) => {
-    console.log(state, "Login State");
+    // console.log(state, "Login State");
     return state.UserLogin.loading;
   });
 
   const loginError = useSelector((state) => {
-    console.log(state, "Login State");
+    // console.log(state, "Login State");
     return state.UserLogin.error;
   });
   useEffect(() => {
-    // checkAutoLogin(dispatch, props.history);
+    console.log("logout");
+    checkAutoLogin(dispatch, props.history);
 
     checkAutoLoginUser(dispatch, props.history);
   }, [dispatch, props.history]);
 
   useEffect(() => {
     if (loginSuccess) {
-      console.log(loginSuccess, "if useEffect login data");
+      // console.log(loginSuccess, "if useEffect login data");
       localStorage.setItem("userDetails", JSON.stringify(loginSuccess));
       // history.push("/home");
-
       history.push("/dashboard");
 
       // if (loginSuccess) {
@@ -88,7 +88,7 @@ function App(props) {
     } else if (loginError) {
       // setAuthLoading(false);
       // setErrMsg(true);
-      console.log(loginError, "else if useEffect login data");
+      // console.log(loginError, "else if useEffect login data");
     } else {
       // console.log(loginData, "else useEffect login data");
       // setAuthLoading(false);
@@ -113,6 +113,7 @@ function App(props) {
   let routes = (
     <Switch>
       <Route path="/login" component={Login} />
+      {/* <Route path="/admin" component={Login} /> */}
       <Route path="/page-register" component={SignUp} />
       <Route path="/page-forgot-password" component={ForgotPassword} />
     </Switch>

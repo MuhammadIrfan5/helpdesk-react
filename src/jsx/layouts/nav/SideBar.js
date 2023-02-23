@@ -57,6 +57,9 @@ const SideBar = () => {
   let path = window.location.pathname;
   path = path.split("/");
   path = path[path.length - 1];
+  const tokenDetailsString = localStorage.getItem("userDetails");
+  console.log(JSON.parse(tokenDetailsString), "userData");
+  const loginData = JSON.parse(tokenDetailsString);
   /// Active menu
   let deshBoard = [
       "",
@@ -69,6 +72,7 @@ const SideBar = () => {
       "task",
       "user-details",
     ],
+    company = ["create-company"],
     app = [
       "app-profile",
       "post-details",
@@ -181,8 +185,13 @@ const SideBar = () => {
               <img src={profile} width={20} alt="" />
               <div className="d-flex align-items-center sidebar-info">
                 <div>
-                  <span className="font-w700 d-block mb-2">Eren Yeager</span>
-                  <small className="text-end font-w400">Super Admin</small>
+                  <span className="font-w700 d-block mb-2">
+                    {loginData ? loginData.data.name : null}
+                  </span>
+
+                  <small className="text-end font-w400">
+                    {loginData ? loginData.data.role.slug : null}
+                  </small>
                 </div>
                 <i className="fas fa-sort-down ms-4"></i>
               </div>
@@ -234,13 +243,26 @@ const SideBar = () => {
           </Dropdown.Menu>
         </Dropdown>
         <MM className="metismenu" id="menu">
-          <li className={`${deshBoard.includes(path) ? "mm-active" : ""}`}>
+          <li className={`${company.includes(path) ? "mm-active" : ""}`}>
             <Link className="has-arrow" to="#">
               <i className="fas fa-home"></i>
-              <span className="nav-text">Dashboard</span>
+              <span className="nav-text">Company</span>
             </Link>
             <ul>
-              <li>
+              {loginData && loginData.data.role.slug == "employee" ? null : (
+                <li>
+                  <Link
+                    className={`${
+                      path === "/create-company" ? "mm-active" : ""
+                    }`}
+                    to="/create-company"
+                  >
+                    Create Company
+                  </Link>
+                </li>
+              )}
+
+              {/* <li>
                 <Link
                   className={`${path === "dashboard" ? "mm-active" : ""}`}
                   to="/dashboard"
@@ -309,14 +331,91 @@ const SideBar = () => {
                 >
                   Task
                 </Link>
-              </li>
-
+              </li> */}
+            </ul>
+          </li>
+          <li className={`${deshBoard.includes(path) ? "mm-active" : ""}`}>
+            <Link className="has-arrow" to="#">
+              <i className="fas fa-home"></i>
+              <span className="nav-text">Dashboard</span>
+            </Link>
+            <ul>
               <li>
                 <Link
                   className={`${path === "/user-details" ? "mm-active" : ""}`}
                   to="/user-details"
                 >
                   User Details
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className={`${path === "dashboard" ? "mm-active" : ""}`}
+                  to="/dashboard"
+                >
+                  {" "}
+                  Dashboard Light
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className={`${path === "dashboard-dark" ? "mm-active" : ""}`}
+                  to="/dashboard-dark"
+                >
+                  {" "}
+                  Dashboard Dark
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className={`${path === "wallet" ? "mm-active" : ""}`}
+                  to="/wallet"
+                >
+                  My Wallet
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className={`${path === "invoices-list" ? "mm-active" : ""}`}
+                  to="/invoices-list"
+                >
+                  {" "}
+                  Invoices
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className={`${path === "create-invoices" ? "mm-active" : ""}`}
+                  to="/create-invoices"
+                >
+                  Create Invoices
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className={`${path === "card-center" ? "mm-active" : ""}`}
+                  to="/card-center"
+                >
+                  Card-Center
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className={`${
+                    path === "transaction-details" ? "mm-active" : ""
+                  }`}
+                  to="/transaction-details"
+                >
+                  {" "}
+                  Transaction
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className={`${path === "task" ? "mm-active" : ""}`}
+                  to="/task"
+                >
+                  Task
                 </Link>
               </li>
             </ul>

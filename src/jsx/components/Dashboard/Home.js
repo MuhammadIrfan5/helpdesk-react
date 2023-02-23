@@ -48,11 +48,11 @@ const Home = () => {
   const dispatch = useDispatch();
 
   const guest = useSelector((state) => {
-    console.log(state, "state");
+    // console.log(state, "state");
   });
   useEffect(() => {
     changeBackground({ value: "light", label: "Light" });
-    console.log("bilal");
+    // console.log("bilal");
     dispatch(GetData());
     const tokenDetailsString = localStorage.getItem("userDetails");
     console.log(JSON.parse(tokenDetailsString), "userData");

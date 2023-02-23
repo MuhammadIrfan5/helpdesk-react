@@ -22,6 +22,9 @@ import CardCenter from "./components/Dashboard/CardCenter";
 import TransactionDetails from "./components/Dashboard/TransactionDetails";
 import Form from "./pages/Dashboard/Form";
 
+// Company
+import AddCompany from "./pages/Company/AddCompany";
+
 import Task from "./components/Dashboard/Task";
 
 /////Demo
@@ -128,6 +131,9 @@ const Markup = () => {
     { url: "task", component: Task },
     { url: "user-details", component: Form },
 
+    // Company
+    { url: "create-company", component: AddCompany },
+
     ///Demo
     { url: "theme1", component: Theme1 },
     { url: "theme2", component: Theme2 },
@@ -210,6 +216,7 @@ const Markup = () => {
     { url: "page-register", component: Registration },
     { url: "page-lock-screen", component: LockScreen },
     { url: "page-login", component: Login },
+    // { url: "page-admin", component: Login },
     { url: "page-forgot-password", component: ForgotPassword },
     { url: "page-error-400", component: Error400 },
     { url: "page-error-403", component: Error403 },

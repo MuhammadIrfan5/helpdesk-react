@@ -3,8 +3,8 @@ import { apiActiveURL } from "../../ApiBaseURL";
 
 export const UserLogin = (data) => {
   console.log(data, "data===============================================");
-  const { email, password } = data;
-  console.log(email, "email");
+  const { email, password, checkedValue } = data;
+  // console.log(email, "email");
   // return;
 
   var data = new FormData();
@@ -12,7 +12,10 @@ export const UserLogin = (data) => {
   data.append("password", password);
 
   var config = {
-    url: `${apiActiveURL}login`,
+    url:
+      checkedValue == "company"
+        ? `${apiActiveURL}company_login`
+        : `${apiActiveURL}employee_login`,
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -23,7 +26,7 @@ export const UserLogin = (data) => {
   return (dispatch) => {
     axios(config)
       .then((res) => {
-        console.log(res, "login response");
+        // console.log(res, "login response");
 
         if (res.data.success) {
           LoginSuccess(dispatch, res.data);
@@ -32,7 +35,7 @@ export const UserLogin = (data) => {
         }
       })
       .catch((e) => {
-        console.log(e.message, "catch error");
+        // console.log(e.message, "catch error");
         LoginFail(dispatch, e.message);
       });
   };
@@ -58,7 +61,7 @@ export const LoginRequested = () => {
 };
 
 const LoginSuccess = (dispatch, res) => {
-  console.log(res, "post data res");
+  // console.log(res, "post data res");
   dispatch({ type: "LOGIN_SUCCESS", payload: res });
 };
 

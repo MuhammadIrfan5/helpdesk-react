@@ -16,22 +16,22 @@ import loginbg from "../../images/bg-login.jpg";
 import { ToastContainer, toast } from "react-toastify";
 
 function Login(props) {
-  console.log(props, "props-----");
+  // console.log(props, "props-----");
   const dispatch = useDispatch();
   const history = useHistory();
 
   const loginSuccess = useSelector((state) => {
-    console.log(state, "Login State");
+    // console.log(state, "Login State");
     return state.UserLogin.data;
   });
 
   const loginLoading = useSelector((state) => {
-    console.log(state, "Login State");
+    // console.log(state, "Login State");
     return state.UserLogin.loading;
   });
 
   const loginError = useSelector((state) => {
-    console.log(state, "Login State");
+    // console.log(state, "Login State");
     return state.UserLogin.error;
   });
 
@@ -41,10 +41,11 @@ function Login(props) {
   const [errors, setErrors] = useState(errorsObj);
   const [password, setPassword] = useState("");
   // const [password, setPassword] = useState("123456");
+  const [checkedValue, setCheckedValue] = useState("company");
 
   function onLogin(e) {
     e.preventDefault();
-    console.log(email, password, "login data----");
+    // console.log(email, password, checkedValue, "login data----");
 
     // return;
 
@@ -67,6 +68,7 @@ function Login(props) {
     let data = {
       email,
       password,
+      checkedValue,
     };
     dispatch(UserLogin(data));
     // dispatch(loadingToggleAction(true));
@@ -75,11 +77,9 @@ function Login(props) {
 
   useEffect(() => {
     if (loginSuccess) {
-      console.log(loginSuccess, "if useEffect login data");
+      // console.log(loginSuccess, "if useEffect login data");
       // history.push("/home");
-
       // history.push("/dashboard");
-
       // if (loginSuccess) {
       // setAuthLoading(false);
       // console.log("true");
@@ -114,7 +114,7 @@ function Login(props) {
     } else if (loginError) {
       // setAuthLoading(false);
       // setErrMsg(true);
-      console.log(loginError, "else if useEffect login data");
+      // console.log(loginError, "else if useEffect login data");
       toast.error(`❌ ${loginError.message} !`, {
         position: "top-center",
         autoClose: 5000,
@@ -254,7 +254,38 @@ function Login(props) {
                               </div>
                             )}
                           </div>
-                          <div className="form-row d-flex justify-content-between mt-4 mb-2">
+                          <div className="form-check">
+                            <input
+                              className="form-check-input"
+                              type="radio"
+                              name="gridRadios"
+                              value="company"
+                              defaultChecked
+                              onChange={(e) => {
+                                console.log(e.target.value, "checked value");
+                                setCheckedValue(e.target.value);
+                              }}
+                            />
+                            <label className="form-check-label">
+                              Company Login
+                            </label>
+                          </div>
+                          <div className="form-check">
+                            <input
+                              className="form-check-input"
+                              type="radio"
+                              name="gridRadios"
+                              value="employee"
+                              onChange={(e) => {
+                                console.log(e.target.value, "checked value");
+                                setCheckedValue(e.target.value);
+                              }}
+                            />
+                            <label className="form-check-label">
+                              Employee Login
+                            </label>
+                          </div>
+                          {/* <div className="form-row d-flex justify-content-between mt-4 mb-2">
                             <div className="form-group">
                               <div className="form-check custom-checkbox ml-1">
                                 <input
@@ -270,7 +301,7 @@ function Login(props) {
                                 </label>
                               </div>
                             </div>
-                          </div>
+                          </div> */}
                           <div className="text-center">
                             <button
                               type="submit"

@@ -19,7 +19,7 @@ export const GetData = () => {
   return (dispatch) => {
     axios(config)
       .then((res) => {
-        console.log(res, "data response");
+        // console.log(res, "data response");
         GetHotelSuccess(dispatch, res.data.data);
         // if (res.data.code === 403) {
         //   GetHotelFail(dispatch);
@@ -28,7 +28,7 @@ export const GetData = () => {
         // }
       })
       .catch((e) => {
-        console.log(e, "fail");
+        // console.log(e, "fail");
         // GetHotelFail(dispatch)
       });
   };
@@ -41,7 +41,7 @@ export const ResetGetHotel = () => {
 };
 
 const GetHotelSuccess = (dispatch, res) => {
-  console.log(res, "data in function");
+  // console.log(res, "data in function");
   dispatch({ type: "GET_HOTEL_SUCCESS", payload: res });
 };
 
