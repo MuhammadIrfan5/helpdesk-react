@@ -22,6 +22,12 @@ const Login = lazy(() => {
   });
 });
 
+const AdminLogin = lazy(() => {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(import("./jsx/pages/AdminLogin")), 500);
+  });
+});
+
 function App(props) {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -42,9 +48,14 @@ function App(props) {
   });
   useEffect(() => {
     console.log("logout");
-    checkAutoLogin(dispatch, props.history);
+    console.log(window.location.pathname, "pathname");
+    if (window.location.pathname == "/react/demo/admin") {
+      history.push("admin");
+    } else {
+      checkAutoLogin(dispatch, props.history);
 
-    checkAutoLoginUser(dispatch, props.history);
+      checkAutoLoginUser(dispatch, props.history);
+    }
   }, [dispatch, props.history]);
 
   useEffect(() => {
@@ -113,7 +124,7 @@ function App(props) {
   let routes = (
     <Switch>
       <Route path="/login" component={Login} />
-      {/* <Route path="/admin" component={Login} /> */}
+      <Route path="/admin" component={AdminLogin} />
       <Route path="/page-register" component={SignUp} />
       <Route path="/page-forgot-password" component={ForgotPassword} />
     </Switch>

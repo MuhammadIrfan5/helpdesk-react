@@ -15,11 +15,10 @@ import loginbg from "../../images/bg-login.jpg";
 
 import { ToastContainer, toast } from "react-toastify";
 
-function Login(props) {
+function AdminLogin(props) {
   // console.log(props, "props-----");
   const dispatch = useDispatch();
   const history = useHistory();
-  // console.log(window.location.pathname, "bilal");
 
   const loginSuccess = useSelector((state) => {
     // console.log(state, "Login State");
@@ -42,7 +41,7 @@ function Login(props) {
   const [errors, setErrors] = useState(errorsObj);
   const [password, setPassword] = useState("");
   // const [password, setPassword] = useState("123456");
-  const [checkedValue, setCheckedValue] = useState("company");
+  const [checkedValue, setCheckedValue] = useState("admin");
 
   function onLogin(e) {
     e.preventDefault();
@@ -255,7 +254,7 @@ function Login(props) {
                               </div>
                             )}
                           </div>
-                          <div className="form-check">
+                          {/* <div className="form-check">
                             <input
                               className="form-check-input"
                               type="radio"
@@ -270,8 +269,8 @@ function Login(props) {
                             <label className="form-check-label">
                               Company Login
                             </label>
-                          </div>
-                          <div className="form-check">
+                          </div> */}
+                          {/* <div className="form-check">
                             <input
                               className="form-check-input"
                               type="radio"
@@ -285,7 +284,7 @@ function Login(props) {
                             <label className="form-check-label">
                               Employee Login
                             </label>
-                          </div>
+                          </div> */}
                           {/* <div className="form-row d-flex justify-content-between mt-4 mb-2">
                             <div className="form-group">
                               <div className="form-check custom-checkbox ml-1">
@@ -340,4 +339,4 @@ const mapStateToProps = (state) => {
     showLoading: state.auth.showLoading,
   };
 };
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps)(AdminLogin);

@@ -107,6 +107,7 @@ import jQueryValidation from "./components/Forms/jQueryValidation/jQueryValidati
 /// Pages
 import Registration from "./pages/Registration";
 import Login from "./pages/Login";
+import AdminLogin from "./pages/AdminLogin";
 import ForgotPassword from "./pages/ForgotPassword";
 import LockScreen from "./pages/LockScreen";
 import Error400 from "./pages/Error400";
@@ -216,7 +217,7 @@ const Markup = () => {
     { url: "page-register", component: Registration },
     { url: "page-lock-screen", component: LockScreen },
     { url: "page-login", component: Login },
-    // { url: "page-admin", component: Login },
+    { url: "page-admin", component: AdminLogin },
     { url: "page-forgot-password", component: ForgotPassword },
     { url: "page-error-400", component: Error400 },
     { url: "page-error-403", component: Error403 },

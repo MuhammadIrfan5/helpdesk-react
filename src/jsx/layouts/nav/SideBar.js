@@ -148,6 +148,7 @@ const SideBar = () => {
     pages = [
       "page-register",
       "page-login",
+      "page-admin",
       "page-lock-screen",
       "page-error-400",
       "page-error-403",
@@ -249,18 +250,32 @@ const SideBar = () => {
               <span className="nav-text">Company</span>
             </Link>
             <ul>
-              {loginData && loginData.data.role.slug == "employee" ? null : (
-                <li>
-                  <Link
-                    className={`${
-                      path === "/create-company" ? "mm-active" : ""
-                    }`}
-                    to="/create-company"
-                  >
-                    Create Company
-                  </Link>
-                </li>
-              )}
+              {
+                loginData && loginData.data.role.slug == "admin" ? (
+                  <>
+                    <li>
+                      <Link
+                        className={`${
+                          path === "/create-company" ? "mm-active" : ""
+                        }`}
+                        to="/create-company"
+                      >
+                        Create Company
+                      </Link>
+                    </li>
+                  </>
+                ) : null
+                // <li>
+                //   <Link
+                //     className={`${
+                //       path === "/create-company" ? "mm-active" : ""
+                //     }`}
+                //     to="/create-company"
+                //   >
+                //     Create Company
+                //   </Link>
+                // </li>
+              }
 
               {/* <li>
                 <Link
