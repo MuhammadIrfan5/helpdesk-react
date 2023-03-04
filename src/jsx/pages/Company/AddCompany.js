@@ -59,14 +59,7 @@ const AddCompany = () => {
       city_id: selectedCity,
     };
 
-    // if (data[key] === undefined) {
-    //   // ...
-    //   console.log(data[key], "is undefined");
-    // } else {
-
-    // }
     console.log(data_obj, "final data");
-    // return;
     var data = new FormData();
     data.append("country_id", selectedCountry.uuid);
     data.append("city_id", selectedCity.uuid);
@@ -96,8 +89,7 @@ const AddCompany = () => {
 
     await axios(config)
       .then(function (response) {
-        // console.log(JSON.stringify(response.data));
-        console.log(response.data, "create company response");
+        // console.log(response.data, "create company response");
         toast.success(response.data.message, {
           position: "top-center",
           autoClose: 5000,
@@ -110,7 +102,17 @@ const AddCompany = () => {
         });
       })
       .catch(function (error) {
-        console.log(error);
+        // console.log(error);
+        toast.error("Something went wrong", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       });
   };
 
@@ -145,19 +147,19 @@ const AddCompany = () => {
     await axios(config)
       .then(function (response) {
         // console.log(JSON.stringify(response.data));
-        console.log(response.data, "country response");
+        // console.log(response.data, "country response");
         setCountry(response.data.data);
       })
       .catch(function (error) {
-        console.log(error);
+        // console.log(error);
       });
   };
 
   const listCities = async (value) => {
     // var FormData = require("form-data");
-    console.log(value, "selected country");
+    // console.log(value, "selected country");
     var data = new FormData();
-    data.append("uuid", "404d97df-a5f0-11ed-802e-b4b686ebc1ac");
+    data.append("uuid", value.uuid);
 
     var config = {
       method: "post",
@@ -174,11 +176,11 @@ const AddCompany = () => {
     axios(config)
       .then(function (response) {
         // console.log(JSON.stringify(response.data));
-        console.log(response.data.data[0].city, "cities response");
+        // console.log(response.data.data[0].city, "cities response");
         setCities(response.data.data[0].city);
       })
       .catch(function (error) {
-        console.log(error);
+        // console.log(error);
       });
   };
 
@@ -197,11 +199,11 @@ const AddCompany = () => {
     await axios(config)
       .then(function (response) {
         // console.log(JSON.stringify(response.data));
-        console.log(response.data, "packages response");
+        // console.log(response.data, "packages response");
         setPackages(response.data.data);
       })
       .catch(function (error) {
-        console.log(error);
+        // console.log(error);
       });
   };
 

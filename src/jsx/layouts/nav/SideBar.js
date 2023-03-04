@@ -72,7 +72,7 @@ const SideBar = () => {
       "task",
       "user-details",
     ],
-    company = ["create-company"],
+    company = ["create-company", "company-list"],
     app = [
       "app-profile",
       "post-details",
@@ -261,6 +261,16 @@ const SideBar = () => {
                         to="/create-company"
                       >
                         Create Company
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        className={`${
+                          path === "/company-list" ? "mm-active" : ""
+                        }`}
+                        to="/company-list"
+                      >
+                        Company List
                       </Link>
                     </li>
                   </>
