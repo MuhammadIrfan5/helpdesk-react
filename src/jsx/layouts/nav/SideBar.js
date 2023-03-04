@@ -73,6 +73,7 @@ const SideBar = () => {
       "user-details",
     ],
     company = ["create-company", "company-list"],
+    settings = ["change-password"],
     app = [
       "app-profile",
       "post-details",
@@ -244,121 +245,59 @@ const SideBar = () => {
           </Dropdown.Menu>
         </Dropdown>
         <MM className="metismenu" id="menu">
+          {/* Company Tabs */}
           <li className={`${company.includes(path) ? "mm-active" : ""}`}>
             <Link className="has-arrow" to="#">
-              <i className="fas fa-home"></i>
+              <i className="fa fa-edit"></i>
               <span className="nav-text">Company</span>
             </Link>
             <ul>
-              {
-                loginData && loginData.data.role.slug == "admin" ? (
-                  <>
-                    <li>
-                      <Link
-                        className={`${
-                          path === "/create-company" ? "mm-active" : ""
-                        }`}
-                        to="/create-company"
-                      >
-                        Create Company
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        className={`${
-                          path === "/company-list" ? "mm-active" : ""
-                        }`}
-                        to="/company-list"
-                      >
-                        Company List
-                      </Link>
-                    </li>
-                  </>
-                ) : null
-                // <li>
-                //   <Link
-                //     className={`${
-                //       path === "/create-company" ? "mm-active" : ""
-                //     }`}
-                //     to="/create-company"
-                //   >
-                //     Create Company
-                //   </Link>
-                // </li>
-              }
-
-              {/* <li>
-                <Link
-                  className={`${path === "dashboard" ? "mm-active" : ""}`}
-                  to="/dashboard"
-                >
-                  {" "}
-                  Dashboard Light
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className={`${path === "dashboard-dark" ? "mm-active" : ""}`}
-                  to="/dashboard-dark"
-                >
-                  {" "}
-                  Dashboard Dark
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className={`${path === "wallet" ? "mm-active" : ""}`}
-                  to="/wallet"
-                >
-                  My Wallet
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className={`${path === "invoices-list" ? "mm-active" : ""}`}
-                  to="/invoices-list"
-                >
-                  {" "}
-                  Invoices
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className={`${path === "create-invoices" ? "mm-active" : ""}`}
-                  to="/create-invoices"
-                >
-                  Create Invoices
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className={`${path === "card-center" ? "mm-active" : ""}`}
-                  to="/card-center"
-                >
-                  Card-Center
-                </Link>
-              </li>
+              {loginData?.data?.role?.slug == "admin" ? (
+                <>
+                  <li>
+                    <Link
+                      className={`${
+                        path === "/create-company" ? "mm-active" : ""
+                      }`}
+                      to="/create-company"
+                    >
+                      Create Company
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className={`${
+                        path === "/company-list" ? "mm-active" : ""
+                      }`}
+                      to="/company-list"
+                    >
+                      Company List
+                    </Link>
+                  </li>
+                </>
+              ) : null}
+            </ul>
+          </li>
+          {/* Settings Tabs */}
+          <li className={`${settings.includes(path) ? "mm-active" : ""}`}>
+            <Link className="has-arrow" to="#">
+              <i className="fa fa-edit"></i>
+              <span className="nav-text">Settings</span>
+            </Link>
+            <ul>
               <li>
                 <Link
                   className={`${
-                    path === "transaction-details" ? "mm-active" : ""
+                    path === "/change-password" ? "mm-active" : ""
                   }`}
-                  to="/transaction-details"
+                  to="/change-password"
                 >
-                  {" "}
-                  Transaction
+                  Change Password
                 </Link>
               </li>
-              <li>
-                <Link
-                  className={`${path === "task" ? "mm-active" : ""}`}
-                  to="/task"
-                >
-                  Task
-                </Link>
-              </li> */}
             </ul>
           </li>
+
           <li className={`${deshBoard.includes(path) ? "mm-active" : ""}`}>
             <Link className="has-arrow" to="#">
               <i className="fas fa-home"></i>
