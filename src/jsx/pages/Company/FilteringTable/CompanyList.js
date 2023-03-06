@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useEffect, useState, useReducer } from "react";
 import PageTitle from "../../../layouts/PageTitle";
 import {
   useTable,
@@ -14,7 +14,12 @@ import {
   Badge,
   Dropdown,
   ProgressBar,
+  Modal,
+  Button,
 } from "react-bootstrap";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import { apiActiveURL } from "../../../../ApiBaseURL";
 import MOCK_DATA from "./MOCK_DATA_2.json";
 import { COLUMNS } from "./Columns";
 import { GlobalFilter } from "./GlobalFilter";
@@ -22,13 +27,45 @@ import { GlobalFilter } from "./GlobalFilter";
 import "./filtering.css";
 // import { MenuItem } from "material-ui/MenuItem";
 
-export const FilteringTable = () => {
+const init = false;
+
+const reducer = (states, active) => {
+  switch (active.type) {
+    case "basicModal":
+      return { ...states, basicModal: !states.basicModal };
+    // case "contentModal":
+    //   return { ...state, contentModal: !state.contentModal };
+    // case "modalCentered":
+    //   return { ...state, modalCentered: !state.modalCentered };
+    // case "modalWithTooltip":
+    //   return { ...state, modalWithTooltip: !state.modalWithTooltip };
+    // case "gridInsideModal":
+    //   return { ...state, gridInsideModal: !state.gridInsideModal };
+    // case "largeModal":
+    //   return { ...state, largeModal: !state.largeModal };
+    // case "smallModal":
+    //   return { ...state, smallModal: !state.smallModal };
+    default:
+      return states;
+  }
+};
+
+export const CompanyList = () => {
+  const tokenDetailsString = localStorage.getItem("userDetails");
+  const loginData = JSON.parse(tokenDetailsString);
   const columns = useMemo(() => COLUMNS, []);
-  const data = useMemo(() => MOCK_DATA, []);
+  // const data = useMemo(() => MOCK_DATA, []);
+  const [states, dispatch] = useReducer(reducer, init);
+
+  const [companyStatus, setCompanyStatus] = useState("");
+  const [companyId, setCompanyId] = useState("");
+
+  const [companyData, setCompanyData] = useState([]);
   const tableInstance = useTable(
     {
       columns,
-      data,
+      // data,
+      data: companyData,
       initialState: { pageIndex: 0 },
     },
     useFilters,
@@ -55,6 +92,10 @@ export const FilteringTable = () => {
 
   const { globalFilter, pageIndex } = state;
 
+  useEffect(() => {
+    listCompanies();
+  }, []);
+
   const svg1 = (
     <svg width="20px" height="20px" viewBox="0 0 24 24" version="1.1">
       <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
@@ -66,13 +107,121 @@ export const FilteringTable = () => {
     </svg>
   );
 
-  //   const handleClick = (item) => {
-  //     console.log("data");
-  //   };
+  const listCompanies = async () => {
+    // console.log(loginData?.data?.token, "token");
+    var config = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: `${apiActiveURL}company/show_all_companies`,
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${loginData?.data?.token}`,
+      },
+    };
+
+    await axios(config)
+      .then(function (response) {
+        // console.log(JSON.stringify(response.data));
+        // console.log(response.data.data, "company response");
+        setCompanyData(response.data.data);
+      })
+      .catch(function (error) {
+        // console.log(error);
+      });
+  };
+
+  const handleBlockAndUnBlock = (item, status) => {
+    // console.log(item, status, "clicked-data");
+    setCompanyStatus(status);
+    setCompanyId(item.original.uuid);
+    dispatch({ type: "basicModal" });
+  };
+
+  const BlockCompany = async () => {
+    // console.log(companyId, companyStatus, "final data");
+    // return;
+    var data = new FormData();
+    data.append("uuid", companyId);
+    data.append("status", companyStatus);
+
+    var config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: `${apiActiveURL}company/block_unblock_company_account`,
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${loginData?.data?.token}`,
+        // ...data.getHeaders(),
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then(function (response) {
+        // console.log(JSON.stringify(response.data));
+        // console.log(response.data, "block api response");
+        dispatch({ type: "basicModal" });
+        toast.success(response.data.message, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        listCompanies();
+        // setCities(response.data.data[0].city);
+      })
+      .catch(function (error) {
+        // console.log(error);
+        toast.error("Something went wrong", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      });
+  };
 
   return (
     <>
+      <ToastContainer />
       <PageTitle activeMenu="Filtering" motherMenu="Table" />
+
+      <Modal
+        className="fade"
+        show={states.basicModal}
+        onHide={() => dispatch({ type: "basicModal" })}
+      >
+        <Modal.Header>
+          <Modal.Title>Modal title</Modal.Title>
+          <Button
+            variant=""
+            className="btn-close"
+            onClick={() => dispatch({ type: "basicModal" })}
+          ></Button>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to {companyStatus} the company.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="danger light"
+            onClick={() => dispatch({ type: "basicModal" })}
+          >
+            Close
+          </Button>
+          <Button variant="primary" onClick={BlockCompany}>
+            Save changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <div className="card">
         <div className="card-header">
           <h4 className="card-title">Table Filtering</h4>
@@ -102,10 +251,13 @@ export const FilteringTable = () => {
                         {row.cells.map((cell) => {
                           return (
                             <>
-                              <td {...cell.getCellProps()}>
-                                {" "}
-                                {cell.render("Cell")}{" "}
-                              </td>
+                              {/* {console.log(cell, "data")} */}
+                              <>
+                                <td {...cell.getCellProps()}>
+                                  {" "}
+                                  {cell.render("Cell")}{" "}
+                                </td>
+                              </>
                             </>
                           );
                         })}
@@ -119,12 +271,20 @@ export const FilteringTable = () => {
                           <Dropdown.Menu>
                             <Dropdown.Item
                               onClick={() => {
-                                console.log(row, "row");
+                                // console.log(row, "row");
+                                handleBlockAndUnBlock(row, "inactive");
                               }}
                             >
-                              Edit
+                              In-Active
                             </Dropdown.Item>
-                            <Dropdown.Item>Delete</Dropdown.Item>
+                            <Dropdown.Item
+                              onClick={() => {
+                                // console.log(row, "row");
+                                handleBlockAndUnBlock(row, "active");
+                              }}
+                            >
+                              Active
+                            </Dropdown.Item>
                           </Dropdown.Menu>
                         </Dropdown>
                         {/* <button
@@ -203,4 +363,4 @@ export const FilteringTable = () => {
     </>
   );
 };
-export default FilteringTable;
+export default CompanyList;

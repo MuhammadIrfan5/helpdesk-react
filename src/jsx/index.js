@@ -24,6 +24,10 @@ import Form from "./pages/Dashboard/Form";
 
 // Company
 import AddCompany from "./pages/Company/AddCompany";
+import CompanyList from "./pages/Company/FilteringTable/CompanyList";
+
+// Settings
+import ChangePassword from "./pages/Settings/ChangePassword";
 
 import Task from "./components/Dashboard/Task";
 
@@ -134,6 +138,10 @@ const Markup = () => {
 
     // Company
     { url: "create-company", component: AddCompany },
+    { url: "company-list", component: CompanyList },
+
+    // settings
+    { url: "change-password", component: ChangePassword },
 
     ///Demo
     { url: "theme1", component: Theme1 },
