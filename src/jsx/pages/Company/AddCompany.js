@@ -213,9 +213,9 @@ const AddCompany = () => {
       <form onSubmit={addNewCompany}>
         <Fragment>
           <PageTitle
-            activeMenu="Validation"
-            motherMenu="Form"
-            pageContent="Validation"
+            activeMenu="Create Company "
+            motherMenu="Dashboard"
+            pageContent="Create Company"
           />
 
           <div className="row">

@@ -192,7 +192,7 @@ export const CompanyList = () => {
   return (
     <>
       <ToastContainer />
-      <PageTitle activeMenu="Filtering" motherMenu="Table" />
+      <PageTitle activeMenu="Company List" motherMenu="List" />
 
       <Modal
         className="fade"
@@ -224,7 +224,7 @@ export const CompanyList = () => {
       </Modal>
       <div className="card">
         <div className="card-header">
-          <h4 className="card-title">Table Filtering</h4>
+          <h4 className="card-title">Company List</h4>
         </div>
         <div className="card-body">
           <div className="table-responsive">

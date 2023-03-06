@@ -6,6 +6,9 @@ import { ThemeContext } from "../../../context/ThemeContext";
 
 const NavHader = () => {
   const [toggle, setToggle] = useState(false);
+  const tokenDetailsString = localStorage.getItem("userDetails");
+  console.log(JSON.parse(tokenDetailsString), "userData");
+  const loginData = JSON.parse(tokenDetailsString);
   const { navigationHader, openMenuToggle, background } = useContext(
     ThemeContext
   );
@@ -21,8 +24,8 @@ const NavHader = () => {
 					</defs>
 				</svg>
 				<div className="brand-title">
-					<h2 className="">inv<span>ome</span></h2>
-					<span className="brand-sub-title">Invoicing Admin</span>					
+					<h2 className="">Green<span>Forest</span></h2>
+					<span className="brand-sub-title">{loginData ? loginData.data.role.slug : null}</span>					
 				</div>
 			</Fragment>
         ) : (
@@ -34,8 +37,8 @@ const NavHader = () => {
 					</defs>
 				</svg>
 				<div className="brand-title">
-					<h2 className="">inv<span>ome</span></h2>
-					<span className="brand-sub-title">Invoicing Admin</span>					
+					<h3 className="">Green<span>Forest</span></h3>
+					<span className="brand-sub-title">{loginData ? loginData.data.role.slug : null}</span>					
 				</div>
 			</Fragment>
         )}
