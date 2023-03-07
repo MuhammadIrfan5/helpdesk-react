@@ -39,7 +39,7 @@ const CreateComplain = () => {
   console.log(JSON.parse(tokenDetailsString), "userData");
   const loginData = JSON.parse(tokenDetailsString);
 
-  const updatePassword = async (e) => {
+  const createComplaint = async (e) => {
     e.preventDefault();
 
     let data_obj = {
@@ -113,7 +113,7 @@ const CreateComplain = () => {
   return (
     <>
       <ToastContainer />
-      <form onSubmit={updatePassword}>
+      <form onSubmit={createComplaint}>
         <Fragment>
           {/* <PageTitle
             activeMenu="Validation"

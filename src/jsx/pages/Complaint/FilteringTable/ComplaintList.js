@@ -1,4 +1,10 @@
-import React, { useMemo, useEffect, useState, useReducer } from "react";
+import React, {
+  useMemo,
+  useEffect,
+  useState,
+  useReducer,
+  Fragment,
+} from "react";
 import PageTitle from "../../../layouts/PageTitle";
 import {
   useTable,
@@ -17,6 +23,7 @@ import {
   Modal,
   Button,
 } from "react-bootstrap";
+import Select from "react-select";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { apiActiveURL } from "../../../../ApiBaseURL";
@@ -63,6 +70,16 @@ export const ComplaintList = () => {
   const [complaintData, setComplaintData] = useState([]);
 
   const [deleteId, setDeleteId] = useState("");
+
+  const [selectedOption, setSelectedOption] = useState(null);
+  const options = [
+    { id: 1, value: "active", label: "Active" },
+    { id: 2, value: "inactive", label: "In-Active" },
+    // { id: 3, value: "vanilla", label: "Vanilla" },
+  ];
+  const [updateId, setUpdateId] = useState("");
+  const [complaintType, setComplaintType] = useState("");
+  const [description, setDescription] = useState("");
   const tableInstance = useTable(
     {
       columns,
@@ -252,6 +269,94 @@ export const ComplaintList = () => {
       });
   };
 
+  const handleUpdate = (item) => {
+    console.log(item, "update clicked data");
+    setUpdateId(item.original.uuid);
+    setDescription(item.original.description);
+    setComplaintType(item.original.type);
+
+    if (item.original.status == "active") {
+      setSelectedOption({ id: 1, value: "active", label: "Active" });
+    } else {
+      setSelectedOption({ id: 2, value: "inactive", label: "In-Active" });
+    }
+    dispatch({ type: "largeModal" });
+  };
+
+  const updateComplaint = async (e) => {
+    e.preventDefault();
+
+    let data_obj = {
+      complaintType,
+      description,
+      selectedOption,
+    };
+
+    console.log(data_obj, "final data");
+    // return;
+    var data = new FormData();
+    data.append("uuid", updateId);
+    data.append("type", complaintType);
+    data.append("status", selectedOption.value);
+    data.append("description", description);
+
+    var config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: `${apiActiveURL}company/complain/edit_complain_type`,
+
+      //   url:
+      //     loginData?.data?.role?.slug == "admin"
+      //       ? `${apiActiveURL}admin/change_password`
+      //       : loginData?.data?.role?.slug == "super-admin"
+      //       ? `${apiActiveURL}admin/change_password`
+      //       : loginData?.data?.role?.slug == "company"
+      //       ? `${apiActiveURL}company/change_password`
+      //       : loginData?.data?.role?.slug == "employee"
+      //       ? `${apiActiveURL}employee/change_password`
+      //       : loginData?.data?.role?.slug == "engineer"
+      //       ? `${apiActiveURL}employee/change_password`
+      //       : null,
+
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${loginData?.data?.token}`,
+        // ...data.getHeaders(),
+      },
+      data: data,
+    };
+
+    await axios(config)
+      .then(function (response) {
+        // console.log(response.data, "create company response");
+        listComplaints();
+        dispatch({ type: "largeModal" });
+        toast.success(response.data.message, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      })
+      .catch(function (error) {
+        // console.log(error);
+        toast.error("Something went wrong", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      });
+  };
+
   return (
     <>
       <ToastContainer />
@@ -324,14 +429,67 @@ export const ComplaintList = () => {
         onHide={() => dispatch({ type: "largeModal" })}
       >
         <Modal.Header>
-          <Modal.Title>Modal title</Modal.Title>
+          <Modal.Title>Update</Modal.Title>
           <Button
             variant=""
             className="btn-close"
             onClick={() => dispatch({ type: "largeModal" })}
           ></Button>
         </Modal.Header>
-        <Modal.Body>Modal body text goes here.</Modal.Body>
+        <Modal.Body>
+          <div className="form-group mb-3 row">
+            <label className="col-lg-4 col-form-label" htmlFor="val-username">
+              Complaint Type
+              <span className="text-danger">*</span>
+            </label>
+            <div className="col-lg-6">
+              <input
+                type="text"
+                className="form-control"
+                id="val-username"
+                name="val-username"
+                placeholder="Please Enter the complaint Type.."
+                value={complaintType}
+                onChange={(e) => setComplaintType(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="form-group mb-3 row">
+            <label className="col-lg-4 col-form-label" htmlFor="val-email">
+              Description <span className="text-danger">*</span>
+            </label>
+            <div className="col-lg-6">
+              <input
+                type="text"
+                className="form-control"
+                id="val-email"
+                name="val-email"
+                placeholder="Please Enter the Description.."
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div className="form-group mb-3 row">
+            <label className="col-lg-4 col-form-label" htmlFor="val-email">
+              Status
+              <span className="text-danger">*</span>
+            </label>
+            <div className="col-lg-6">
+              <Select
+                defaultValue={selectedOption}
+                onChange={setSelectedOption}
+                options={options}
+                style={{
+                  lineHeight: "40px",
+                  color: "#7e7e7e",
+                  paddingLeft: " 15px",
+                }}
+              />
+            </div>
+          </div>
+        </Modal.Body>
         <Modal.Footer>
           <Button
             variant="danger light"
@@ -339,7 +497,12 @@ export const ComplaintList = () => {
           >
             Close
           </Button>
-          <Button variant="" type="button" className="btn btn-primary">
+          <Button
+            variant=""
+            type="button"
+            className="btn btn-primary"
+            onClick={updateComplaint}
+          >
             Save changes
           </Button>
         </Modal.Footer>
@@ -419,9 +582,9 @@ export const ComplaintList = () => {
                             </Dropdown.Item>
                             <Dropdown.Item
                               onClick={() => {
-                                console.log(row, "row");
+                                // console.log(row, "row");
                                 // handleBlockAndUnBlock(row, "active");
-                                // handleDelete(row);
+                                handleUpdate(row);
                               }}
                             >
                               Update
