@@ -74,6 +74,7 @@ const SideBar = () => {
     ],
     company = ["create-company", "company-list"],
     settings = ["change-password"],
+    complaint = ["create-complaint", "complaint-lists"],
     app = [
       "app-profile",
       "post-details",
@@ -293,6 +294,36 @@ const SideBar = () => {
                   to="/change-password"
                 >
                   Change Password
+                </Link>
+              </li>
+            </ul>
+          </li>
+
+          {/* Complaint Tabs */}
+          <li className={`${complaint.includes(path) ? "mm-active" : ""}`}>
+            <Link className="has-arrow" to="#">
+              <i className="fa fa-edit"></i>
+              <span className="nav-text">Complaints</span>
+            </Link>
+            <ul>
+              <li>
+                <Link
+                  className={`${
+                    path === "/create-complaint" ? "mm-active" : ""
+                  }`}
+                  to="/create-complaint"
+                >
+                  Create Complain
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className={`${
+                    path === "/complaint-lists" ? "mm-active" : ""
+                  }`}
+                  to="/complaint-lists"
+                >
+                  Complaint Type List
                 </Link>
               </li>
             </ul>

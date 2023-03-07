@@ -29,6 +29,10 @@ import CompanyList from "./pages/Company/FilteringTable/CompanyList";
 // Settings
 import ChangePassword from "./pages/Settings/ChangePassword";
 
+// Complaint
+import CreateComplain from "./pages/Complaint/CreateComplain";
+import ComplaintList from "./pages/Complaint/FilteringTable/ComplaintList";
+
 import Task from "./components/Dashboard/Task";
 
 /////Demo
@@ -142,6 +146,10 @@ const Markup = () => {
 
     // settings
     { url: "change-password", component: ChangePassword },
+
+    // Complaint
+    { url: "create-complaint", component: CreateComplain },
+    { url: "complaint-lists", component: ComplaintList },
 
     ///Demo
     { url: "theme1", component: Theme1 },

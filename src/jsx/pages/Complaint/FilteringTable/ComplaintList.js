@@ -35,14 +35,14 @@ const reducer = (states, active) => {
       return { ...states, basicModal: !states.basicModal };
     // case "contentModal":
     //   return { ...state, contentModal: !state.contentModal };
-    // case "modalCentered":
-    //   return { ...state, modalCentered: !state.modalCentered };
+    case "modalCentered":
+      return { ...states, modalCentered: !states.modalCentered };
     // case "modalWithTooltip":
     //   return { ...state, modalWithTooltip: !state.modalWithTooltip };
     // case "gridInsideModal":
     //   return { ...state, gridInsideModal: !state.gridInsideModal };
-    // case "largeModal":
-    //   return { ...state, largeModal: !state.largeModal };
+    case "largeModal":
+      return { ...states, largeModal: !states.largeModal };
     // case "smallModal":
     //   return { ...state, smallModal: !state.smallModal };
     default:
@@ -50,7 +50,7 @@ const reducer = (states, active) => {
   }
 };
 
-export const CompanyList = () => {
+export const ComplaintList = () => {
   const tokenDetailsString = localStorage.getItem("userDetails");
   const loginData = JSON.parse(tokenDetailsString);
   const columns = useMemo(() => COLUMNS, []);
@@ -60,12 +60,14 @@ export const CompanyList = () => {
   const [companyStatus, setCompanyStatus] = useState("");
   const [companyId, setCompanyId] = useState("");
 
-  const [companyData, setCompanyData] = useState([]);
+  const [complaintData, setComplaintData] = useState([]);
+
+  const [deleteId, setDeleteId] = useState("");
   const tableInstance = useTable(
     {
       columns,
       // data,
-      data: companyData,
+      data: complaintData,
       initialState: { pageIndex: 0 },
     },
     useFilters,
@@ -93,7 +95,7 @@ export const CompanyList = () => {
   const { globalFilter, pageIndex } = state;
 
   useEffect(() => {
-    listCompanies();
+    listComplaints();
   }, []);
 
   const svg1 = (
@@ -107,23 +109,27 @@ export const CompanyList = () => {
     </svg>
   );
 
-  const listCompanies = async () => {
+  const listComplaints = async () => {
     // console.log(loginData?.data?.token, "token");
+
+    var data = new FormData();
+    data.append("uuid", loginData?.data?.uuid);
     var config = {
-      method: "get",
+      method: "post",
       maxBodyLength: Infinity,
-      url: `${apiActiveURL}company/show_all_companies`,
+      url: `${apiActiveURL}company/complain/list_complain_type`,
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${loginData?.data?.token}`,
       },
+      data: data,
     };
 
     await axios(config)
       .then(function (response) {
         // console.log(JSON.stringify(response.data));
-        console.log(response.data.data, "company response");
-        setCompanyData(response.data.data);
+        console.log(response, "complaint list response");
+        setComplaintData(response.data.data);
       })
       .catch(function (error) {
         // console.log(error);
@@ -147,7 +153,7 @@ export const CompanyList = () => {
     var config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: `${apiActiveURL}company/block_unblock_company_account`,
+      url: `${apiActiveURL}general/listing/block_complain_type`,
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${loginData?.data?.token}`,
@@ -171,7 +177,64 @@ export const CompanyList = () => {
           progress: undefined,
           theme: "colored",
         });
-        listCompanies();
+        listComplaints();
+        // setCities(response.data.data[0].city);
+      })
+      .catch(function (error) {
+        // console.log(error);
+        toast.error("Something went wrong", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      });
+  };
+
+  const handleDelete = (row) => {
+    console.log(row, "delete clicked data");
+    setDeleteId(row.original.uuid);
+    dispatch({ type: "modalCentered" });
+  };
+
+  const DeleteComplaint = () => {
+    console.log(deleteId, "delete id");
+
+    var data = new FormData();
+    data.append("uuid", deleteId);
+
+    var config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: `${apiActiveURL}company/complain/delete_complain_type`,
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${loginData?.data?.token}`,
+        // ...data.getHeaders(),
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then(function (response) {
+        // console.log(JSON.stringify(response.data));
+        // console.log(response.data, "block api response");
+        dispatch({ type: "modalCentered" });
+        toast.success(response.data.message, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+        listComplaints();
         // setCities(response.data.data[0].city);
       })
       .catch(function (error) {
@@ -192,7 +255,7 @@ export const CompanyList = () => {
   return (
     <>
       <ToastContainer />
-      <PageTitle activeMenu="Company List" motherMenu="List" />
+      <PageTitle activeMenu="Complain Type List" motherMenu="Complaints" />
 
       <Modal
         className="fade"
@@ -200,7 +263,7 @@ export const CompanyList = () => {
         onHide={() => dispatch({ type: "basicModal" })}
       >
         <Modal.Header>
-          <Modal.Title>Modal title</Modal.Title>
+          <Modal.Title>Active / In-Active Company</Modal.Title>
           <Button
             variant=""
             className="btn-close"
@@ -222,6 +285,66 @@ export const CompanyList = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      {/* center modal */}
+      <Modal
+        className="fade"
+        show={states.modalCentered}
+        onHide={() => dispatch({ type: "modalCentered" })}
+      >
+        <Modal.Header>
+          <Modal.Title>Delete</Modal.Title>
+          <Button
+            onClick={() => dispatch({ type: "modalCentered" })}
+            variant=""
+            className="btn-close"
+          ></Button>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Are you sure want to delete the complaint type ?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            onClick={() => dispatch({ type: "modalCentered" })}
+            variant="danger light"
+          >
+            Close
+          </Button>
+          <Button variant="primary" onClick={DeleteComplaint}>
+            Save changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* large modal */}
+      <Modal
+        className="fade bd-example-modal-lg"
+        show={states.largeModal}
+        size="lg"
+        onHide={() => dispatch({ type: "largeModal" })}
+      >
+        <Modal.Header>
+          <Modal.Title>Modal title</Modal.Title>
+          <Button
+            variant=""
+            className="btn-close"
+            onClick={() => dispatch({ type: "largeModal" })}
+          ></Button>
+        </Modal.Header>
+        <Modal.Body>Modal body text goes here.</Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="danger light"
+            onClick={() => dispatch({ type: "largeModal" })}
+          >
+            Close
+          </Button>
+          <Button variant="" type="button" className="btn btn-primary">
+            Save changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
       <div className="card">
         <div className="card-header">
           <h4 className="card-title">Company List</h4>
@@ -284,6 +407,24 @@ export const CompanyList = () => {
                               }}
                             >
                               Active
+                            </Dropdown.Item>
+                            <Dropdown.Item
+                              onClick={() => {
+                                // console.log(row, "row");
+                                // handleBlockAndUnBlock(row, "active");
+                                handleDelete(row);
+                              }}
+                            >
+                              Delete
+                            </Dropdown.Item>
+                            <Dropdown.Item
+                              onClick={() => {
+                                console.log(row, "row");
+                                // handleBlockAndUnBlock(row, "active");
+                                // handleDelete(row);
+                              }}
+                            >
+                              Update
                             </Dropdown.Item>
                           </Dropdown.Menu>
                         </Dropdown>
@@ -363,4 +504,4 @@ export const CompanyList = () => {
     </>
   );
 };
-export default CompanyList;
+export default ComplaintList;
