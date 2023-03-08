@@ -33,6 +33,10 @@ import ChangePassword from "./pages/Settings/ChangePassword";
 import CreateComplain from "./pages/Complaint/CreateComplain";
 import ComplaintList from "./pages/Complaint/FilteringTable/ComplaintList";
 
+// Employee Type
+import CreateEmployeeType from "./pages/EmployeeType/CreateEmployeeType";
+import EmployeeTypeList from "./pages/EmployeeType/FilteringTable/EmployeeTypeList";
+
 import Task from "./components/Dashboard/Task";
 
 /////Demo
@@ -150,6 +154,10 @@ const Markup = () => {
     // Complaint
     { url: "create-complaint", component: CreateComplain },
     { url: "complaint-lists", component: ComplaintList },
+
+    // Employee Type
+    { url: "create-employee-type", component: CreateEmployeeType },
+    { url: "employee-type-list", component: EmployeeTypeList },
 
     ///Demo
     { url: "theme1", component: Theme1 },

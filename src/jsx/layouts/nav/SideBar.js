@@ -75,6 +75,7 @@ const SideBar = () => {
     company = ["create-company", "company-list"],
     settings = ["change-password"],
     complaint = ["create-complaint", "complaint-lists"],
+    employeeType = ["create-employee-type", "employee-type-list"],
     app = [
       "app-profile",
       "post-details",
@@ -324,6 +325,36 @@ const SideBar = () => {
                   to="/complaint-lists"
                 >
                   Complaint Type List
+                </Link>
+              </li>
+            </ul>
+          </li>
+
+          {/* Employee Tabs */}
+          <li className={`${employeeType.includes(path) ? "mm-active" : ""}`}>
+            <Link className="has-arrow" to="#">
+              <i className="fa fa-edit"></i>
+              <span className="nav-text">Employee Type</span>
+            </Link>
+            <ul>
+              <li>
+                <Link
+                  className={`${
+                    path === "/create-employee-type" ? "mm-active" : ""
+                  }`}
+                  to="/create-employee-type"
+                >
+                  Create Employee Type
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className={`${
+                    path === "/employee-type-list" ? "mm-active" : ""
+                  }`}
+                  to="/employee-type-list"
+                >
+                  Employee Type List
                 </Link>
               </li>
             </ul>
