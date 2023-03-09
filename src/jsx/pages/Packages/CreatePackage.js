@@ -22,7 +22,7 @@ const loginSchema = Yup.object().shape({
     .required("Please provide a password"),
 });
 
-const CreateComplain = () => {
+const CreatePackage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const options = [
@@ -31,48 +31,35 @@ const CreateComplain = () => {
     // { id: 3, value: "vanilla", label: "Vanilla" },
   ];
 
-  const [complaintType, setComplaintType] = useState("");
-  const [description, setDescription] = useState("");
+  const [packageName, setPackageName] = useState("");
+  const [packageCost, setPackageCost] = useState();
   const [status, setStatus] = useState("");
 
   const tokenDetailsString = localStorage.getItem("userDetails");
   console.log(JSON.parse(tokenDetailsString), "userData");
   const loginData = JSON.parse(tokenDetailsString);
 
-  const createComplaint = async (e) => {
+  const createPackage = async (e) => {
     e.preventDefault();
 
     let data_obj = {
-      complaintType,
-      description,
+      packageName,
+      packageCost,
       selectedOption,
     };
 
     console.log(data_obj, "final data");
     // return;
     var data = new FormData();
-    data.append("type", complaintType);
+    data.append("name", packageName);
+    data.append("slug", packageName);
     data.append("status", selectedOption.value);
-    data.append("description", description);
+    data.append("package_cost", packageCost);
 
     var config = {
       method: "post",
       maxBodyLength: Infinity,
-      url: `${apiActiveURL}company/complain/create_complain_type`,
-
-      //   url:
-      //     loginData?.data?.role?.slug == "admin"
-      //       ? `${apiActiveURL}admin/change_password`
-      //       : loginData?.data?.role?.slug == "super-admin"
-      //       ? `${apiActiveURL}admin/change_password`
-      //       : loginData?.data?.role?.slug == "company"
-      //       ? `${apiActiveURL}company/change_password`
-      //       : loginData?.data?.role?.slug == "employee"
-      //       ? `${apiActiveURL}employee/change_password`
-      //       : loginData?.data?.role?.slug == "engineer"
-      //       ? `${apiActiveURL}employee/change_password`
-      //       : null,
-
+      url: `${apiActiveURL}admin/packages/create_package`,
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${loginData?.data?.token}`,
@@ -113,7 +100,7 @@ const CreateComplain = () => {
   return (
     <>
       <ToastContainer />
-      <form onSubmit={createComplaint}>
+      <form onSubmit={createPackage}>
         <Fragment>
           {/* <PageTitle
             activeMenu="Validation"
@@ -125,7 +112,7 @@ const CreateComplain = () => {
             <div className="col-lg-12">
               <div className="card">
                 <div className="card-header">
-                  <h4 className="card-title">Create Complaint</h4>
+                  <h4 className="card-title">Create Package</h4>
                 </div>
                 <div className="card-body">
                   <div className="form-validation">
@@ -136,7 +123,7 @@ const CreateComplain = () => {
                             className="col-lg-4 col-form-label"
                             htmlFor="val-username"
                           >
-                            Complaint Type
+                            Package Name
                             <span className="text-danger">*</span>
                           </label>
                           <div className="col-lg-6">
@@ -145,9 +132,9 @@ const CreateComplain = () => {
                               className="form-control"
                               id="val-username"
                               name="val-username"
-                              placeholder="Please Enter the complaint Type.."
-                              value={complaintType}
-                              onChange={(e) => setComplaintType(e.target.value)}
+                              placeholder="Please Enter the Package Name.."
+                              value={packageName}
+                              onChange={(e) => setPackageName(e.target.value)}
                               required
                             />
                           </div>
@@ -157,17 +144,18 @@ const CreateComplain = () => {
                             className="col-lg-4 col-form-label"
                             htmlFor="val-email"
                           >
-                            Description <span className="text-danger">*</span>
+                            Package Cost <span className="text-danger">*</span>
                           </label>
                           <div className="col-lg-6">
                             <input
-                              type="text"
+                              type="number"
                               className="form-control"
                               id="val-email"
                               name="val-email"
-                              placeholder="Please Enter the Description.."
-                              value={description}
-                              onChange={(e) => setDescription(e.target.value)}
+                              placeholder="Please Enter the Package Cost.."
+                              value={packageCost}
+                              onChange={(e) => setPackageCost(e.target.value)}
+                              required
                             />
                           </div>
                         </div>
@@ -253,4 +241,4 @@ const CreateComplain = () => {
   );
 };
 
-export default CreateComplain;
+export default CreatePackage;

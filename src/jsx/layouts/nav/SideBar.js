@@ -76,6 +76,7 @@ const SideBar = () => {
     settings = ["change-password"],
     complaint = ["create-complaint", "complaint-lists"],
     employeeType = ["create-employee-type", "employee-type-list"],
+    packages = ["create-package"],
     app = [
       "app-profile",
       "post-details",
@@ -355,6 +356,32 @@ const SideBar = () => {
                   to="/employee-type-list"
                 >
                   Employee Type List
+                </Link>
+              </li>
+            </ul>
+          </li>
+
+          {/* Packages Tabs */}
+          <li className={`${packages.includes(path) ? "mm-active" : ""}`}>
+            <Link className="has-arrow" to="#">
+              <i className="fa fa-edit"></i>
+              <span className="nav-text">Packages</span>
+            </Link>
+            <ul>
+              <li>
+                <Link
+                  className={`${path === "/create-package" ? "mm-active" : ""}`}
+                  to="/create-package"
+                >
+                  Create Package
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className={`${path === "/package-list" ? "mm-active" : ""}`}
+                  to="/package-list"
+                >
+                  Packages List
                 </Link>
               </li>
             </ul>

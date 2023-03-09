@@ -37,6 +37,10 @@ import ComplaintList from "./pages/Complaint/FilteringTable/ComplaintList";
 import CreateEmployeeType from "./pages/EmployeeType/CreateEmployeeType";
 import EmployeeTypeList from "./pages/EmployeeType/FilteringTable/EmployeeTypeList";
 
+// Package
+import CreatePackage from "./pages/Packages/CreatePackage";
+import PackagesList from "./pages/Packages/FilteringTable/PackagesList";
+
 import Task from "./components/Dashboard/Task";
 
 /////Demo
@@ -158,6 +162,10 @@ const Markup = () => {
     // Employee Type
     { url: "create-employee-type", component: CreateEmployeeType },
     { url: "employee-type-list", component: EmployeeTypeList },
+
+    // Packages
+    { url: "create-package", component: CreatePackage },
+    { url: "package-list", component: PackagesList },
 
     ///Demo
     { url: "theme1", component: Theme1 },
