@@ -77,6 +77,7 @@ const SideBar = () => {
     complaint = ["create-complaint", "complaint-lists"],
     employeeType = ["create-employee-type", "employee-type-list"],
     packages = ["create-package"],
+    employee = ["create-employee"],
     app = [
       "app-profile",
       "post-details",
@@ -255,30 +256,27 @@ const SideBar = () => {
               <span className="nav-text">Company</span>
             </Link>
             <ul>
-              {loginData?.data?.role?.slug == "admin" ? (
-                <>
-                  <li>
-                    <Link
-                      className={`${
-                        path === "/create-company" ? "mm-active" : ""
-                      }`}
-                      to="/create-company"
-                    >
-                      Create Company
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      className={`${
-                        path === "/company-list" ? "mm-active" : ""
-                      }`}
-                      to="/company-list"
-                    >
-                      Company List
-                    </Link>
-                  </li>
-                </>
-              ) : null}
+              {/* {loginData?.data?.role?.slug == "admin" ? ( */}
+              <>
+                <li>
+                  <Link
+                    className={`${
+                      path === "/create-company" ? "mm-active" : ""
+                    }`}
+                    to="/create-company"
+                  >
+                    Create Company
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className={`${path === "/company-list" ? "mm-active" : ""}`}
+                    to="/company-list"
+                  >
+                    Company List
+                  </Link>
+                </li>
+              </>
             </ul>
           </li>
           {/* Settings Tabs */}
@@ -384,6 +382,34 @@ const SideBar = () => {
                   Packages List
                 </Link>
               </li>
+            </ul>
+          </li>
+
+          {/* Create Employee Tabs */}
+          <li className={`${employee.includes(path) ? "mm-active" : ""}`}>
+            <Link className="has-arrow" to="#">
+              <i className="fa fa-edit"></i>
+              <span className="nav-text">Employee</span>
+            </Link>
+            <ul>
+              <li>
+                <Link
+                  className={`${
+                    path === "/create-employee" ? "mm-active" : ""
+                  }`}
+                  to="/create-employee"
+                >
+                  Create Employee
+                </Link>
+              </li>
+              {/* <li>
+                <Link
+                  className={`${path === "/package-list" ? "mm-active" : ""}`}
+                  to="/package-list"
+                >
+                  Packages List
+                </Link>
+              </li> */}
             </ul>
           </li>
 

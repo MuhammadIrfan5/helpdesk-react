@@ -41,6 +41,9 @@ import EmployeeTypeList from "./pages/EmployeeType/FilteringTable/EmployeeTypeLi
 import CreatePackage from "./pages/Packages/CreatePackage";
 import PackagesList from "./pages/Packages/FilteringTable/PackagesList";
 
+// Create Employee
+import CreateEmployee from "./pages/Employee/CreateEmployee";
+
 import Task from "./components/Dashboard/Task";
 
 /////Demo
@@ -166,6 +169,9 @@ const Markup = () => {
     // Packages
     { url: "create-package", component: CreatePackage },
     { url: "package-list", component: PackagesList },
+
+    // Create Employee
+    { url: "create-employee", component: CreateEmployee },
 
     ///Demo
     { url: "theme1", component: Theme1 },
